@@ -5,7 +5,7 @@ def dampened_safety_check(input):
     def increasing(report, adder):
         if(adder <= 0):
             return 0
-        print(report)
+        #print(report)
         for i in range(2,len(report)):
             if (report[i-2] >= report[i-1]):
                 report.pop(i-2)
@@ -26,7 +26,7 @@ def dampened_safety_check(input):
     def decreasing(report, adder):
         if(adder <= 0):
             return 0
-        print(report)
+        #print(report)
         for i in range(2,len(report)):
             if (report[i-2] <= report[i-1]):
                 report.pop(i-2)
@@ -51,16 +51,25 @@ def dampened_safety_check(input):
         report = report.split(" ")
         report = [int(k) for k in report]
 
-        adder = 1
+        adder = 0
 
-        if report[0] <= report[1]:
+
+        #adder += increasing(report, 2)
+        #adder += decreasing(report, 2)
+        """
+        if report[0] <= report[-1]:
             adder = increasing(report, 2)
             print(adder)
-        elif report[0] >= report[1]:
+        if report[0] >= report[-1]:
             adder = decreasing(report, 2)
             print(adder)
         else:
             adder = 0
+        """
+
+        #print(report)
+        adder = decreasing(report, 2) + increasing(report, 2)
+        #print("out", decreasing(report, 2), increasing(report, 2))
 
 
         safe_reports += adder
