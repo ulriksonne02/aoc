@@ -5,6 +5,7 @@ def dampened_safety_check(input):
     def increasing(report, adder):
         if(adder <= 0):
             return 0
+
         #print(report)
         for i in range(2,len(report)):
             if (report[i-2] >= report[i-1]):
