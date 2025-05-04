@@ -6,15 +6,35 @@ import sys
 def dampened_safety_check(input):
     def double_check(report, direction):
         skipped = 0
-        for c, elm in enumerate(1, report):
-            if (report[c] - report[c-1]) / abs(report[c] - report[c-1]) == direction:
+
+        direction = direction * -1
+
+        print(report)
+        for c in range(1,len(report)):
+
+            #print((report[c] - report[c-1]))
+            if ((report[c] - report[c-1]) * direction ) in range(1,4):
+                print(report[c-1], ((report[c] - report[c-1]) * direction ) in range(1,4))
                 continue
-            elif (c+1 <= len(report)):
-                if (skipped == 0) and #STOPPET HER
-                
 
 
+            elif (c+1 < len(report)):
+                print("SKIP DIFF", report[c+1],report[c-1])
+                if ((report[c+1] - report[c-1]) * direction) in range(1,4):
+                    print("SUCCESS: A", (report[c+1] - report[c-1]))
+                    return 1
+            elif (c == len(report)-1):
+                print("SUCCESS: LAST")
+                return 1
+
+            else:
+                print("FAIL")
+                return 0
+        print("SUCCESS: END")
+        return 1
+    
     safe_reports = 0
+    primary = 0
 
     for i, report in enumerate(input):
         report = report.split(" ")
@@ -24,7 +44,7 @@ def dampened_safety_check(input):
         increasing = 0
         decreasing = 0
 
-        for c, elm in enumerate(1, report):
+        for c in range(1, len(report)):
             diff = report[c-1] - report[c]
             if (diff > 0) and (diff <= 3):
                 increasing += 1
@@ -33,11 +53,13 @@ def dampened_safety_check(input):
         
         if (len(report) - 1) == increasing or (len(report) - 1) == decreasing:
             safe_reports += 1
+            primary += 1
 
         elif(len(report) - 2) == increasing:
-        
-        
-    
+            safe_reports += double_check(report, 1)
+        elif((len(report) - 2) == decreasing):
+            safe_reports += double_check(report, -1)
+    print(primary)
     return safe_reports
 
 if __name__ == "__main__":
