@@ -9,13 +9,13 @@ def safety_check(input):
     def increasing(report):
         adder = 1
 
-        for i in range(2,len(report)):
-            if (report[i-2] >= report[i-1]) or (report[i-1] >= report[i]):
+        for i in range(1,len(report)):
+            if (report[i-1] >= report[i]) or (report[i-1] >= report[i]):
                 #print("SAME/DECREASING")
                 adder = 0
                 break
 
-            if ((report[i-1] - report[i-2]) > 3) or ((report[i] - report[i-1]) > 3):
+            if ((report[i] - report[i-1]) > 3) or ((report[i] - report[i-1]) > 3):
                 """
                 print("TOO MUCH")
                 print(report[i-1], "-", report[i-2], report[i-1] - report[i-2])
@@ -29,13 +29,13 @@ def safety_check(input):
     def decreasing(report):
         adder = 1
 
-        for i in range(2,len(report)):
-            if (report[i-2] <= report[i-1]) or (report[i-1] <= report[i]):
+        for i in range(1,len(report)):
+            if (report[i-1] <= report[i]) or (report[i-1] <= report[i]):
                 #print("SAME/INCREASING")
                 adder = 0
                 break
 
-            if ((report[i-2] - report[i-1]) > 3) or ((report[i-1] - report[i]) > 3):
+            if ((report[i-1] - report[i]) > 3) or ((report[i-1] - report[i]) > 3):
                 """
                 print("TOO MUCH")
                 print(report[i-2], "-", report[i-1], report[i-2] - report[i-1])
