@@ -7,12 +7,7 @@ def dampened_safety_check(input):
     def increasing(report, adder):
         if(adder <= 0):
             return 0
-<<<<<<< HEAD
         print(report)
-=======
-
-        #print(report)
->>>>>>> a12fb176aa81848f1660d556da93fed0d4e87d8a
         for i in range(2,len(report)):
             if (report[i-2] == report[i-1]): #check if i-2 and i-1 are the same
                 print("I2==1")

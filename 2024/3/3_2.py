@@ -7,15 +7,20 @@ import re
 
 def sum_of_uncorrupted_part2(input):
     results = list()
+    
+    line = ""
+    for i in input.read():
+        line += i
+    print(line)
 
-    for line in input:
+    #for line in input:
         #"[don't\(\).*do\(\)]"
-        line =re.sub("don't[(][)].+do[(][)]","", line)
-        print(line)
-        temp_mul = re.findall("mul[(]\d+,\d+[)]", line)
-        temp_split = [re.findall("\d+,\d+",i) for i in temp_mul]
-        temp_split = [re.split("[,]",i[0]) for i in temp_split]
-        [results.append([int(j) for j in i]) for i in temp_split]
+    line = re.sub("don't[(][)].*?do[(][)]","", line, flags=re.DOTALL)
+    print(line)
+    temp_mul = re.findall("mul[(]\d+,\d+[)]", line)
+    temp_split = [re.findall("\d+,\d+",i) for i in temp_mul]
+    temp_split = [re.split("[,]",i[0]) for i in temp_split]
+    [results.append([int(j) for j in i]) for i in temp_split]
         
     sum_of_products = 0
     for i in results:

@@ -4,43 +4,7 @@ import io
 import sys
 
 def dampened_safety_check(input):
-    def double_check(report, direction):
-        skipped = 0
-
-        direction = direction * -1
-
-        print(report)
-        for c in range(1,len(report)):
-
-            #print((report[c] - report[c-1]))
-            if ((report[c] - report[c-1]) * direction ) in range(1,4):
-                print(report[c-1], ((report[c] - report[c-1]) * direction ) in range(1,4))
-                continue
-
-
-            elif (c+1 < len(report)):
-                print("SKIP DIFF", report[c+1],report[c-1])
-                if ((report[c+1] - report[c-1]) * direction) in range(1,4):
-                    print("SUCCESS: A", (report[c+1] - report[c-1]))
-                    return 1
-            elif (c == len(report)-1):
-                print("SUCCESS: LAST")
-                return 1
-
-            else:
-                print("FAIL")
-                return 0
-        print("SUCCESS: END")
-        return 1
-    
-    safe_reports = 0
-    primary = 0
-
-    for i, report in enumerate(input):
-        report = report.split(" ")
-        report = [int(k) for k in report]
-
-        
+    def single_check(report):
         increasing = 0
         decreasing = 0
 
@@ -52,14 +16,54 @@ def dampened_safety_check(input):
                 decreasing += 1
         
         if (len(report) - 1) == increasing or (len(report) - 1) == decreasing:
+            return 1
+        return 0
+    def double_check(report):
+
+        reports_to_check = list()
+        
+        success = 0
+
+        for c in range(len(report)):
+            reports_to_insert = report[:]
+            reports_to_insert.pop(c)
+            reports_to_check.append(reports_to_insert)
+        print("reports to check: ", len(reports_to_check))
+        for check in reports_to_check:
+            success += single_check(check)
+        print("succeses: ", success)
+        if success > 0:
+            return 1
+        else:
+            return 0
+
+    
+    safe_reports = 0
+    primary = 0
+    secondary = 0
+
+    for i, report in enumerate(input):
+        report = report.split(" ")
+        report = [int(k) for k in report]
+
+        
+        increasing = 0
+        decreasing = 0
+        ret = 0
+
+        
+        if (single_check(report) == 1):
             safe_reports += 1
             primary += 1
 
-        elif(len(report) - 2) == increasing:
-            safe_reports += double_check(report, 1)
-        elif((len(report) - 2) == decreasing):
-            safe_reports += double_check(report, -1)
-    print(primary)
+        else:
+            ret += double_check(report)
+            print("double check", ret, report)
+            print(" ")
+            safe_reports += ret
+            secondary += 1
+    print("primary: ", primary)
+    print("secondary: ", secondary)
     return safe_reports
 
 if __name__ == "__main__":
